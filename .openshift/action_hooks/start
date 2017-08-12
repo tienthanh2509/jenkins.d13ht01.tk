@@ -1,0 +1,8 @@
+#!/bin/bash
+
+export JAVA_HOME=${OPENSHIFT_DIY_DIR}jdk1.8.0_144
+export PATH=${JAVA_HOME}/bin:$PATH
+export JENKINS_HOME=${OPENSHIFT_DATA_DIR}.jenkins
+java -jar jenkins.war \
+	--httpListenAddress=$OPENSHIFT_DIY_IP \
+	--httpPort=$OPENSHIFT_DIY_PORT
