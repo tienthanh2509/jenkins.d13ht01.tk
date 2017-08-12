@@ -10,6 +10,7 @@ rm -rf $TMP
 mkdir -p $TMP
 chmod 777 $TMP
 nohup java -Xms32M -Xmx512M \
+	-Duser.home=${OPENSHIFT_DATA_DIR} \
 	-Djava.awt.headless=true -Djava.io.tmpdir=$TMP -Dhudson.udp=-1 \
 	-jar ${OPENSHIFT_DIY_DIR}jenkins.war \
 	--httpListenAddress=$OPENSHIFT_DIY_IP --httpPort=$OPENSHIFT_DIY_PORT >> ${OPENSHIFT_DATA_DIR}jenkins.log 2>&1 &
