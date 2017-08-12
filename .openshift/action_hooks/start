@@ -1,9 +1,15 @@
 #!/bin/bash
 
-cd $OPENSHIFT_DIY_DIR
-
 export JAVA_HOME=${OPENSHIFT_DIY_DIR}jdk1.8.0_144
 export PATH=${JAVA_HOME}/bin:$PATH
 export JENKINS_HOME=${OPENSHIFT_DATA_DIR}.jenkins
+export TMP=${TMP}jenkins
 
-nohup java -jar jenkins.war --httpListenAddress=$OPENSHIFT_DIY_IP --httpPort=$OPENSHIFT_DIY_PORT >> ${OPENSHIFT_DATA_DIR}jenkins.log 2>&1 &
+#rm -rf $TMP/* $JENKINS_HOME
+rm -rf $TMP
+mkdir -p $TMP
+chmod 777 $TMP
+nohup java -Xms32M -Xmx512M \
+	-Djava.awt.headless=true -Djava.io.tmpdir=$TMP -Dhudson.udp=-1 \
+	-jar ${OPENSHIFT_DIY_DIR}jenkins.war \
+	--httpListenAddress=$OPENSHIFT_DIY_IP --httpPort=$OPENSHIFT_DIY_PORT >> ${OPENSHIFT_DATA_DIR}jenkins.log 2>&1 &
